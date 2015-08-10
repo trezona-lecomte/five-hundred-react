@@ -5,9 +5,9 @@ var APIRoot = "http://localhost:3000";
 module.exports = {
 
   APIEndpoints: {
-    LOGIN:          APIRoot + "/v1/login",
-    REGISTRATION:   APIRoot + "/v1/users",
-    STORIES:        APIRoot + "/v1/stories"
+    LOGIN:          APIRoot + "/login",
+    REGISTRATION:   APIRoot + "/users",
+    GAMES:        APIRoot + "/games"
   },
 
   PayloadSources: keyMirror({
@@ -23,12 +23,13 @@ module.exports = {
     // Routes
     REDIRECT: null,
 
-    LOAD_STORIES: null,
-    RECEIVE_STORIES: null,
-    LOAD_STORY: null,
-    RECEIVE_STORY: null,
-    CREATE_STORY: null,
-    RECEIVE_CREATED_STORY: null
+    // GAMES
+    LOAD_GAMES: null,
+    RECEIVE_GAMES: null,
+    LOAD_GAME: null,
+    RECEIVE_GAME: null,
+    CREATE_GAME: null,
+    RECEIVE_CREATED_GAME: null
   })
 
 };
