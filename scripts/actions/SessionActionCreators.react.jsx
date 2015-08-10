@@ -1,13 +1,13 @@
-var SmallAppDispatcher = require('../dispatcher/SmallAppDispatcher.js');
-var SmallConstants = require('../constants/SmallConstants.js');
+var FiveHundredDispatcher = require('../dispatcher/FiveHundredDispatcher.js');
+var FiveHundredConstants = require('../constants/FiveHundredConstants.js');
 var WebAPIUtils = require('../utils/WebAPIUtils.js');
 
-var ActionTypes = SmallConstants.ActionTypes;
+var ActionTypes = FiveHundredConstants.ActionTypes;
 
 module.exports = {
 
   signup: function(email, username, password, passwordConfirmation) {
-    SmallAppDispatcher.handleViewAction({
+    FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.SIGNUP_REQUEST,
       email: email,
       username: username,
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   login: function(email, password) {
-    SmallAppDispatcher.handleViewAction({
+    FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.LOGIN_REQUEST,
       email: email,
       password: password
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   logout: function() {
-    SmallAppDispatcher.handleViewAction({
+    FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.LOGOUT
     });
   }
