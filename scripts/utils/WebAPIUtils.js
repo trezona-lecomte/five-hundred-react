@@ -1,5 +1,5 @@
 var ServerActionCreators = require('../actions/ServerActionCreators.react.jsx');
-var SmallConstants = require('../constants/SmallConstants.js');
+var FiveHundredConstants = require('../constants/FiveHundredConstants.js');
 var request = require('superagent');
 
 function _getErrors(res) {
@@ -14,14 +14,14 @@ function _getErrors(res) {
   return errorMsgs;
 }
 
-var APIEndpoints = SmallConstants.APIEndpoints;
+var APIEndpoints = FiveHundredConstants.APIEndpoints;
 
 module.exports = {
 
   signup: function(email, username, password, passwordConfirmation) {
     request.post(APIEndpoints.REGISTRATION)
-      .send({ user: { 
-        email: email, 
+      .send({ user: {
+        email: email,
         username: username,
         password: password,
         password_confirmation: passwordConfirmation
@@ -57,43 +57,43 @@ module.exports = {
       });
   },
 
-  loadStories: function() {
-    request.get(APIEndpoints.STORIES)
+  loadGames: function() {
+    request.get(APIEndpoints.GAMES)
       .set('Accept', 'application/json')
       .set('Authorization', sessionStorage.getItem('accessToken'))
       .end(function(error, res){
         if (res) {
           json = JSON.parse(res.text);
-          ServerActionCreators.receiveStories(json);
+          ServerActionCreators.receiveGames(json);
         }
       });
   },
 
-  loadStory: function(storyId) {
-    request.get(APIEndpoints.STORIES + '/' + storyId)
+  loadGame: function(gameId) {
+    request.get(APIEndpoints.GAMES + '/' + gameId)
       .set('Accept', 'application/json')
       .set('Authorization', sessionStorage.getItem('accessToken'))
       .end(function(error, res){
         if (res) {
           json = JSON.parse(res.text);
-          ServerActionCreators.receiveStory(json);
+          ServerActionCreators.receiveGame(json);
         }
       });
   },
 
-  createStory: function(title, body) {
-    request.post(APIEndpoints.STORIES)
+  createGame: function(title, body) {
+    request.post(APIEndpoints.GAMES)
       .set('Accept', 'application/json')
       .set('Authorization', sessionStorage.getItem('accessToken'))
-      .send({ story: { title: title, body: body } })
+      .send({ game: { title: title, body: body } })
       .end(function(error, res){
         if (res) {
           if (res.error) {
             var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveCreatedStory(null, errorMsgs);
+            ServerActionCreators.receiveCreatedGame(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
-            ServerActionCreators.receiveCreatedStory(json, null);
+            ServerActionCreators.receiveCreatedGame(json, null);
           }
         }
       });
