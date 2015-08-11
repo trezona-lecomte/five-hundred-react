@@ -8,7 +8,7 @@ var LoginPage = React.createClass({
   getInitialState: function() {
     return { errors: [] };
   },
- 
+
   componentDidMount: function() {
     SessionStore.addChangeListener(this._onChange);
   },
@@ -39,7 +39,7 @@ var LoginPage = React.createClass({
             <form onSubmit={this._onSubmit}>
               <div className="card--login__field">
                 <label name="email">Email</label>
-                <input type="text" name="email" ref="email" /> 
+                <input type="text" name="email" ref="email" />
               </div>
               <div className="card--login__field">
                 <label name="password">Password</label>

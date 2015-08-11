@@ -26,7 +26,7 @@ module.exports = {
       json: json
     });
   },
-  
+
   receiveCreatedGame: function(json, errors) {
     FiveHundredDispatcher.handleServerAction({
       type: ActionTypes.RECEIVE_CREATED_GAME,
@@ -34,6 +34,5 @@ module.exports = {
       errors: errors
     });
   }
-  
-};
 
+};

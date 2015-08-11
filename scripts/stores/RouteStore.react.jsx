@@ -1,7 +1,7 @@
-var SmallAppDispatcher = require('../dispatcher/SmallAppDispatcher.js');
-var SmallConstants = require('../constants/SmallConstants.js');
+var FiveHundredDispatcher = require('../dispatcher/FiveHundredDispatcher.js');
+var FiveHundredConstants = require('../constants/FiveHundredConstants.js');
 var SessionStore = require('../stores/SessionStore.react.jsx');
-var StoryStore = require('../stores/StoryStore.react.jsx');
+var GameStore = require('../stores/GameStore.react.jsx');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
@@ -10,10 +10,10 @@ var routes = require('../routes.jsx');
 
 var router = Router.create({
   routes: routes,
-  location: null // Router.HistoryLocation
+  location: null // Router.HigameLocation
 });
 
-var ActionTypes = SmallConstants.ActionTypes;
+var ActionTypes = FiveHundredConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var RouteStore = assign({}, EventEmitter.prototype, {
@@ -39,10 +39,10 @@ var RouteStore = assign({}, EventEmitter.prototype, {
   }
 });
 
-RouteStore.dispatchToken = SmallAppDispatcher.register(function(payload) {
-  SmallAppDispatcher.waitFor([
+RouteStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
+  FiveHundredDispatcher.waitFor([
     SessionStore.dispatchToken,
-    StoryStore.dispatchToken
+    GameStore.dispatchToken
   ]);
 
   var action = payload.action;
@@ -61,7 +61,7 @@ RouteStore.dispatchToken = SmallAppDispatcher.register(function(payload) {
       }
       break;
     
-    case ActionTypes.RECEIVE_CREATED_STORY:
+    case ActionTypes.RECEIVE_CREATED_GAME:
       router.transitionTo('app');
       break;
 

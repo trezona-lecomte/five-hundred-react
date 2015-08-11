@@ -6,14 +6,13 @@ var assign = require('object-assign');
 var ActionTypes = FiveHundredConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-// Load an access token from the session storage, you might want to implement
-// a 'remember me' using localSgorage
+// TODO: implement 'remember me' using localSgorage
 var _accessToken = sessionStorage.getItem('accessToken');
 var _email = sessionStorage.getItem('email');
 var _errors = [];
 
 var SessionStore = assign({}, EventEmitter.prototype, {
-  
+
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -27,7 +26,7 @@ var SessionStore = assign({}, EventEmitter.prototype, {
   },
 
   isLoggedIn: function() {
-    return _accessToken ? true : false;    
+    return _accessToken ? true : false;
   },
 
   getAccessToken: function() {
@@ -73,7 +72,7 @@ SessionStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
 
     default:
   }
-  
+
   return true;
 });
 
