@@ -1,35 +1,35 @@
-var SmallAppDispatcher = require('../dispatcher/SmallAppDispatcher.js');
-var SmallConstants = require('../constants/SmallConstants.js');
+var FiveHundredDispatcher = require('../dispatcher/FiveHundredDispatcher.js');
+var FiveHundredConstants = require('../constants/FiveHundredConstants.js');
 
-var ActionTypes = SmallConstants.ActionTypes;
+var ActionTypes = FiveHundredConstants.ActionTypes;
 
 module.exports = {
 
   receiveLogin: function(json, errors) {
-    SmallAppDispatcher.handleServerAction({
+    FiveHundredDispatcher.handleServerAction({
       type: ActionTypes.LOGIN_RESPONSE,
       json: json,
       errors: errors
     });
   },
 
-  receiveStories: function(json) {
-    SmallAppDispatcher.handleServerAction({
-      type: ActionTypes.RECEIVE_STORIES,
+  receiveGames: function(json) {
+    FiveHundredDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_GAMES,
       json: json
     });
   },
 
-  receiveStory: function(json) {
-    SmallAppDispatcher.handleServerAction({
-      type: ActionTypes.RECEIVE_STORY,
+  receiveGame: function(json) {
+    FiveHundredDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_GAME,
       json: json
     });
   },
   
-  receiveCreatedStory: function(json, errors) {
-    SmallAppDispatcher.handleServerAction({
-      type: ActionTypes.RECEIVE_CREATED_STORY,
+  receiveCreatedGame: function(json, errors) {
+    FiveHundredDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_CREATED_GAME,
       json: json,
       errors: errors
     });
