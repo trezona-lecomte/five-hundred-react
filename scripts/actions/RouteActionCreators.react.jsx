@@ -1,12 +1,12 @@
-var SmallAppDispatcher = require('../dispatcher/SmallAppDispatcher.js');
-var SmallConstants = require('../constants/SmallConstants.js');
+var FiveHundredDispatcher = require('../dispatcher/FiveHundredDispatcher.js');
+var FiveHundredConstants = require('../constants/FiveHundredConstants.js');
 
-var ActionTypes = SmallConstants.ActionTypes;
+var ActionTypes = FiveHundredConstants.ActionTypes;
 
 module.exports = {
 
   redirect: function(route) {
-    SmallAppDispatcher.handleViewAction({
+    FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.REDIRECT,
       route: route
     });
