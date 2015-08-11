@@ -81,11 +81,11 @@ module.exports = {
       });
   },
 
-  createGame: function(title, body) {
+  createGame: function() {
     request.post(APIEndpoints.GAMES)
       .set('Accept', 'application/json')
       .set('Authorization', sessionStorage.getItem('accessToken'))
-      .send({ game: { title: title, body: body } })
+      .send({ game: { } })
       .end(function(error, res){
         if (res) {
           if (res.error) {
@@ -95,6 +95,30 @@ module.exports = {
             json = JSON.parse(res.text);
             ServerActionCreators.receiveCreatedGame(json, null);
           }
+        }
+      });
+  },
+
+  loadRounds: function(gameId) {
+    request.get(APIEndpoints.GAMES + '/' + gameId + APIEndpoints.ROUNDS)
+      .set('Accept', 'application/json')
+      .set('Authorization', sessionStorage.getItem('accessToken'))
+      .end(function(error, res){
+        if (res) {
+          json = JSON.parse(res.text);
+          ServerActionCreators.receiveRounds(json);
+        }
+      });
+  },
+
+  loadRound: function(roundId) {
+    request.get(APIEndpoints.ROUNDS + '/' + roundId)
+      .set('Accept', 'application/json')
+      .set('Authorization', sessionStorage.getItem('accessToken'))
+      .end(function(error, res){
+        if (res) {
+          json = JSON.parse(res.text);
+          ServerActionCreators.receiveRound(json);
         }
       });
   }

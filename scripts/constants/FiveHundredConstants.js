@@ -7,7 +7,8 @@ module.exports = {
   APIEndpoints: {
     LOGIN:          APIRoot + "/login",
     REGISTRATION:   APIRoot + "/users",
-    GAMES:        APIRoot + "/games"
+    GAMES:          APIRoot + "/games",
+    ROUNDS:         APIRoot + "/rounds"
   },
 
   PayloadSources: keyMirror({
@@ -29,7 +30,15 @@ module.exports = {
     LOAD_GAME: null,
     RECEIVE_GAME: null,
     CREATE_GAME: null,
-    RECEIVE_CREATED_GAME: null
+    RECEIVE_CREATED_GAME: null,
+
+    // ROUNDS
+    LOAD_ROUNDS: null,
+    RECEIVE_ROUNDS: null,
+    LOAD_ROUND: null,
+    RECEIVE_ROUND: null,
+    CREATE_ROUND: null,
+    RECEIVE_CREATED_ROUND: null
   })
 
 };
