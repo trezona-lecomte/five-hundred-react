@@ -26,6 +26,17 @@ module.exports = {
       type: ActionTypes.CREATE_ROUND
     });
     WebAPIUtils.createRound();
+  },
+
+  playCard: function(round, cardId) {
+    console.log('cardId in RoundActionCreator: ' + cardId);
+    FiveHundredDispatcher.handleViewAction({
+      type: ActionTypes.PLAY_CARD,
+      roundId: round.id,
+      trickId: round.active_trick.id,
+      cardId:  cardId
+    });
+    WebAPIUtils.playCard(round.id, round.active_trick.id, cardId);
   }
 
 };
