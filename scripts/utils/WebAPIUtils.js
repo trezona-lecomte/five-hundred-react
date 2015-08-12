@@ -117,8 +117,47 @@ module.exports = {
       .set('Authorization', sessionStorage.getItem('accessToken'))
       .end(function(error, res){
         if (res) {
-          json = JSON.parse(res.text);
-          ServerActionCreators.receiveRound(json);
+          if (res.error) {
+            console.log('Error returned from loadRound: ' + _getErrors(res));
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveRound(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveRound(json, null);
+          }
+        }
+      });
+  },
+
+  playCard: function(roundId, trickId, cardId) {
+    console.log('roundId in api utils: '  + roundId);
+    console.log('trickId in api utils: '  + trickId);
+    console.log('cardId in api utils: '  + cardId);
+    request.patch(APIEndpoints.ROUNDS + '/' + roundId)
+      .set('Accept', 'application/json')
+      .set('Authorization', sessionStorage.getItem('accessToken'))
+      .send(
+        {
+          "round": {
+            "cards": [
+              {
+                "id": cardId,
+                "trick_id": trickId
+              }
+            ]
+          }
+        }
+      )
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
+            console.log('Error returned from playCard: ' + _getErrors(res));
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveRound(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveRound(json, null);
+          }
         }
       });
   }
