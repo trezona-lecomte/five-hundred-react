@@ -38,7 +38,10 @@ module.exports = {
     LOAD_ROUND: null,
     RECEIVE_ROUND: null,
     CREATE_ROUND: null,
-    RECEIVE_CREATED_ROUND: null
+    RECEIVE_CREATED_ROUND: null,
+
+    // PLAYS
+    PLAY_CARD: null
   })
 
 };
