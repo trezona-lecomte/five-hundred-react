@@ -35,10 +35,11 @@ module.exports = {
     });
   },
 
-  receiveRound: function(json) {
+  receiveRound: function(json, errors) {
     FiveHundredDispatcher.handleServerAction({
       type: ActionTypes.RECEIVE_ROUND,
-      json: json
+      json: json,
+      errors: errors
     });
   }
 
