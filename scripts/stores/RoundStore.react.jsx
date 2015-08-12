@@ -9,7 +9,7 @@ var CHANGE_EVENT = 'change';
 
 var _rounds = [];
 var _errors = [];
-var _round = { id: "", path: "", tricks: [], cards: [] };
+var _round = { id: "", path: "", active_trick: {}, trick_ids: [], current_player_cards: [] };
 
 var RoundStore = assign({}, EventEmitter.prototype, {
 
