@@ -9,7 +9,20 @@ var CHANGE_EVENT = 'change';
 
 var _rounds = [];
 var _errors = [];
-var _round = { id: "", path: "", active_trick: {}, trick_ids: [], current_player_cards: [] };
+var _round = {
+  id: "",
+  path: "",
+  number_in_game: "",
+  stage: "",
+  available_bids: [],
+  winning_bid: {},
+  placed_bids: [],
+  active_trick: {},
+  previous_trick_winner: {},
+  trick_ids: [],
+  current_player_cards: [],
+  players: []
+};
 
 var RoundStore = assign({}, EventEmitter.prototype, {
 
@@ -60,7 +73,8 @@ RoundStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
       RoundStore.emitChange();
       break;
 
-    case ActionTypes.RECEIVE_ROUND:
+  case ActionTypes.RECEIVE_ROUND:
+    console.log('receiving round from server in round store');
       if (action.json) {
         _round = action.json.round;
         _errors = [];

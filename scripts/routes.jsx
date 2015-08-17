@@ -14,10 +14,10 @@ var RoundPage   = require('./components/rounds/RoundPage.react.jsx');
 module.exports = (
     <Route name="app" path="/" handler={FiveHundred}>
         <DefaultRoute handler={GamesPage} />
-        <Route name="signup"   path="/signup"          handler={SignupPage}/>
-        <Route name="login"    path="/login"           handler={LoginPage}/>
-        <Route name="games"    path="/games"           handler={GamesPage}/>
-        <Route name="new-game" path="/game/new"        handler={GameNew}/>
+        <Route name="signup"   path="/signup"          handler={SignupPage} />
+        <Route name="login"    path="/login"           handler={LoginPage} />
+        <Route name="games"    path="/games"           handler={GamesPage} />
+        <Route name="new-game" path="/game/new"        handler={GameNew} />
         <Route name="game"     path="/games/:gameId"   handler={GamePage} />
         <Route name="round"    path="/rounds/:roundId" handler={RoundPage} />
     </Route>

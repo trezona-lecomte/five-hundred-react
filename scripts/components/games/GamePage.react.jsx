@@ -32,36 +32,83 @@ var GamePage = React.createClass({
       errors: GameStore.getErrors()
     });
   },
-
+  
   // TODO: this doesn't work after login, fixed with refresh..
   render: function() {
     console.log('rounds: ' + JSON.stringify(this.state.game.rounds));
     return (
       <div className="row">
           <div className="game-id"><h2>Game {this.state.game.id}</h2></div>
-          <div className="game-rounds">Number of rounds: {this.state.game.rounds.length}</div>
-          <div className="game-players">Number of players: {this.state.game.players.length}</div>
+          <GameScoreBoard game={this.state.game} />
           <PlayersList players={this.state.game.players} />
-          <RoundsList rounds={this.state.game.rounds} />
+          <RoundsList rounds={this.state.game.rounds} players={this.state.game.players}/>
       </div>
     );
   }
-
 });
 
-var PlayerItem = React.createClass({
+var GameScoreBoard = React.createClass({
+  getDefaultProps: function() {
+    return {
+      game: {},
+      oddTeamHandles: [],
+      evenTeamHandles: []
+     }
+  },
+  oddTeam: function() {
+    return this.props.game.players.filter(function(player) {
+      return (player.number_in_game % 2 !== 0);
+    });
+  },
+  evenTeam: function() {
+    return this.props.game.players.filter(function(player) {
+      return (player.number_in_game % 2 === 0);
+    });
+  },
   render: function() {
+    var oddTeam = this.oddTeam();
+    var evenTeam = this.evenTeam();
+    if (typeof oddTeam[0] !== 'undefined') {
+      this.props.oddTeamHandles = oddTeam[0].handle + " & " + oddTeam[1].handle;
+    }
+    if (typeof evenTeam[0] !== 'undefined') {
+      this.props.evenTeamHandles = evenTeam[0].handle + " & " + evenTeam[1].handle;
+      console.log('even team handles' + this.props.evenTeamHandles);
+    }
     return (
-      <li className="player">
-          <div className="player-id">
-              <p> Player {this.props.player.id} - {this.props.player.user.username}</p>
-          </div>
-      </li>
-    );
+      <div className="game-score-board panel">
+          <table>
+              <thead>
+                  <tr>
+                      <th>Team</th>
+                      <th>Score</th>
+                      <th>Players</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Team 1</td>
+                      <td>{this.props.game.odd_team_score}</td>
+                      <td>{this.props.oddTeamHandles}</td>
+                  </tr>
+                  <tr>
+                      <td>Team 2</td>
+                      <td>{this.props.game.even_team_score}</td>
+                      <td>{this.props.evenTeamHandles}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+    )
   }
 });
 
 var PlayersList = React.createClass({
+  getDefaultProps: function() {
+    return {
+      players: []
+    }
+  },
   render: function() {
     return (
       <ul className="row">
@@ -73,7 +120,48 @@ var PlayersList = React.createClass({
   }
 });
 
+var PlayerItem = React.createClass({
+  getDefaultProps: function() {
+    return {
+      player: {}
+    }
+  },
+  render: function() {
+    return (
+      <li className="player">
+          <div className="player-id">
+              <p> Player {this.props.player.id} - {this.props.player.user.username}</p>
+          </div>
+      </li>
+    );
+  }
+});
+
+var RoundsList = React.createClass({
+  getDefaultProps: function() {
+    return {
+      round: {},
+      players: []
+    }
+  },
+  render: function() {
+    return (
+      <ul className="row">
+          {this.props.rounds.map(function(round, index){
+            return <RoundItem round={round} key={"round-" + index}/>
+           })}
+      </ul>
+    );
+  }
+});
+
 var RoundItem = React.createClass({
+  getDefaultProps: function() {
+    return {
+      round: {},
+      players: []
+    }
+  },
   render: function() {
     return (
       <li className="round">
@@ -87,17 +175,6 @@ var RoundItem = React.createClass({
   }
 });
 
-var RoundsList = React.createClass({
-  render: function() {
-    return (
-      <ul className="row">
-          {this.props.rounds.map(function(round, index){
-            return <RoundItem round={round} key={"round-" + index}/>
-           })}
-      </ul>
-    );
-  }
-});
 
 module.exports = GamePage;
 

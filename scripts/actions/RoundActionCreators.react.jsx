@@ -28,8 +28,17 @@ module.exports = {
     WebAPIUtils.createRound();
   },
 
+  submitBid: function(round, bid) {
+    FiveHundredDispatcher.handleViewAction({
+      type: ActionTypes.SUBMIT_BID,
+      roundId: round.id,
+      number_of_tricks: bid[0],
+      suit: bid[1]
+    });
+    WebAPIUtils.submitBid(round.id, bid[0], bid[1]);
+  },
+
   playCard: function(round, cardId) {
-    console.log('cardId in RoundActionCreator: ' + cardId);
     FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.PLAY_CARD,
       roundId: round.id,

@@ -35,7 +35,7 @@ var FiveHundred = React.createClass({
         <Header
           isLoggedIn={this.state.isLoggedIn}
           email={this.state.email} />
-        <RouteHandler/>
+        <RouteHandler />
       </div>
     );
   }

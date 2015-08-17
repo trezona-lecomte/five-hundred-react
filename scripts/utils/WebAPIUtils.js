@@ -130,9 +130,6 @@ module.exports = {
   },
 
   playCard: function(roundId, trickId, cardId) {
-    console.log('roundId in api utils: '  + roundId);
-    console.log('trickId in api utils: '  + trickId);
-    console.log('cardId in api utils: '  + cardId);
     request.patch(APIEndpoints.ROUNDS + '/' + roundId)
       .set('Accept', 'application/json')
       .set('Authorization', sessionStorage.getItem('accessToken'))
@@ -151,7 +148,30 @@ module.exports = {
       .end(function(error, res){
         if (res) {
           if (res.error) {
-            console.log('Error returned from playCard: ' + _getErrors(res));
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveRound(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveRound(json, null);
+          }
+        }
+      });
+  },
+
+  submitBid: function(roundId, numberOfTricks, suit) {
+    console.log('submitting bid: ' + numberOfTricks + " | " + suit);
+    request.post(APIEndpoints.ROUNDS + '/' + roundId + '/bids')
+      .set('Accept', 'application/json')
+      .set('Authorization', sessionStorage.getItem('accessToken'))
+      .send(
+        {
+          "number_of_tricks": numberOfTricks,
+          "suit": suit
+        }
+      )
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
             var errorMsgs = _getErrors(res);
             ServerActionCreators.receiveRound(null, errorMsgs);
           } else {

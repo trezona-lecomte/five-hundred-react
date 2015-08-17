@@ -40,7 +40,8 @@ module.exports = {
     CREATE_ROUND: null,
     RECEIVE_CREATED_ROUND: null,
 
-    // PLAYS
+    // BIDS & PLAYS
+    SUBMIT_BID: null,
     PLAY_CARD: null
   })
 
