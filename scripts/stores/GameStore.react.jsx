@@ -9,7 +9,12 @@ var CHANGE_EVENT = 'change';
 
 var _games = [];
 var _errors = [];
-var _game = { id: "", path: "", players: [], rounds: [] };
+var _game = { id: "",
+              path: "",
+              stage: "",
+              active_round: {},
+              players: [],
+              rounds: [] };
 
 var GameStore = assign({}, EventEmitter.prototype, {
 

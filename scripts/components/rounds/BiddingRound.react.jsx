@@ -42,14 +42,13 @@ var NotificationArea = React.createClass({
   firstBidderHandle: function() {
     var players = this.props.players;
     var roundNumber = this.props.round.number_in_game;
-    console.log('players in bottom func: ' + players);
-    return players.filter(function (player) {
-      if (player.position_in_game === roundNumber) {
-        console.log('found player with num same as round num: ' + JSON.stringify(player));
-
-        return player
-        }
-    })[0].handle;
+    var firstBidder = players[0];
+    players.forEach(function(player) {
+      if ((roundNumber % player.number_in_game) === 1) {
+        firstBidder = player
+      }
+    });
+    return firstBidder.handle;
   },
   render: function() {
     var bids = this.props.round.placed_bids;

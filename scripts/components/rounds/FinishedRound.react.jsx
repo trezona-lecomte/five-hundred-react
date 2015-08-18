@@ -1,4 +1,6 @@
-var React = require('react');
+var React  = require('react');
+var Router = require('react-router');
+var Link   = Router.Link;
 
 var FinishedRound = React.createClass({
 
@@ -15,6 +17,7 @@ var FinishedRound = React.createClass({
           <div className="round-id"><h2>Round {round.id}</h2></div>
           <NotificationArea round={round} />
           <RoundScoreBoard round={round} />
+          <Link to="game" params={ {gameId: this.props.round.game_id} }>Back to game</Link>
       </div>
     );
   }
@@ -54,6 +57,7 @@ var RoundScoreBoard = React.createClass({
   render: function() {
     return (
       <div className="round-score-board panel">
+          <h5>Score for this round: </h5>
           <table>
               <thead>
                   <tr>

@@ -2,6 +2,7 @@ var React              = require('react');
 var Router             = require('react-router');
 var State              = require('react-router').State;
 var Link               = Router.Link;
+var SessionStore       = require('../../stores/SessionStore.react.jsx');
 var WebAPIUtils        = require('../../utils/WebAPIUtils.js');
 var GameStore          = require('../../stores/GameStore.react.jsx');
 var GameActionCreators = require('../../actions/GameActionCreators.react.jsx');
@@ -32,7 +33,7 @@ var GamePage = React.createClass({
       errors: GameStore.getErrors()
     });
   },
-  
+
   // TODO: this doesn't work after login, fixed with refresh..
   render: function() {
     console.log('rounds: ' + JSON.stringify(this.state.game.rounds));
@@ -40,8 +41,7 @@ var GamePage = React.createClass({
       <div className="row">
           <div className="game-id"><h2>Game {this.state.game.id}</h2></div>
           <GameScoreBoard game={this.state.game} />
-          <PlayersList players={this.state.game.players} />
-          <RoundsList rounds={this.state.game.rounds} players={this.state.game.players}/>
+          <JoinGamePanel players={this.state.game.players} game={this.state.game}/>
       </div>
     );
   }
@@ -69,14 +69,20 @@ var GameScoreBoard = React.createClass({
     var oddTeam = this.oddTeam();
     var evenTeam = this.evenTeam();
     if (typeof oddTeam[0] !== 'undefined') {
-      this.props.oddTeamHandles = oddTeam[0].handle + " & " + oddTeam[1].handle;
+      this.props.oddTeamHandles += oddTeam[0].handle + " & ";
+    }
+    if (typeof oddTeam[1] !== 'undefined') {
+      this.props.oddTeamHandles += oddTeam[1].handle;
     }
     if (typeof evenTeam[0] !== 'undefined') {
-      this.props.evenTeamHandles = evenTeam[0].handle + " & " + evenTeam[1].handle;
-      console.log('even team handles' + this.props.evenTeamHandles);
+      this.props.evenTeamHandles += evenTeam[0].handle + " & ";
+    }
+    if (typeof evenTeam[1] !== 'undefined') {
+      this.props.evenTeamHandles += evenTeam[1].handle;
     }
     return (
       <div className="game-score-board panel">
+          <h5>Score for this game: </h5>
           <table>
               <thead>
                   <tr>
@@ -100,6 +106,87 @@ var GameScoreBoard = React.createClass({
           </table>
       </div>
     )
+  }
+});
+
+var JoinGamePanel = React.createClass({
+  getDefaultProps: function() {
+    return {
+      players: [],
+      game: {}
+    }
+  },
+  render: function() {
+    var userEmails = new Array();
+    this.props.players.forEach(function(player) {
+      userEmails.push(player.user.email);
+    });
+
+    if (userEmails.length > 0) {
+      if (userEmails.length === 4) {
+        return (
+          <PlayGameButton activeRound={this.props.game.active_round} players={this.props.players}/>
+        );
+      }
+      else if (userEmails.indexOf(SessionStore.getEmail()) > 0) {
+        return (
+          <div>You have joined this game. The game can start when 4 players have joined.</div>
+        );
+      }
+      else {
+        var handleRe = /(.*)@/
+        var handleMatch = handleRe.exec(SessionStore.getEmail());
+        console.log("HANDLE MATCH: " + handleMatch);
+        return (
+          <div>
+              <JoinGameButton gameId={this.props.game.id} />
+          </div>
+        );
+      }
+    } else
+    return <div></div>
+  }
+});
+
+var JoinGameButton = React.createClass({
+  getDefaultProps: function() {
+    return {
+      handle: null,
+      gameId: null
+    }
+  },
+  joinGame: function(e) {
+    e.preventDefault();
+    GameActionCreators.joinGame(this.props.handle, this.props.gameId);
+  },
+  render: function() {
+    return (
+      <button onClick={this.joinGame}>Join game</button>
+    );
+  }
+});
+
+var PlayGameButton = React.createClass({
+  getDefaultProps: function() {
+    return {
+      activeRound: {},
+      players: []
+    }
+  },
+  render: function() {
+    console.log(this.props.activeRound);
+    if (this.props.players.length === 4) {
+      return (
+            <div className="play-game-button">
+              <Link to="round" params={ {roundId: this.props.activeRound.id} }>
+                Play game
+              </Link>
+            </div>
+      );
+    }
+    else {
+      return <div></div>
+    }
   }
 });
 
@@ -136,45 +223,6 @@ var PlayerItem = React.createClass({
     );
   }
 });
-
-var RoundsList = React.createClass({
-  getDefaultProps: function() {
-    return {
-      round: {},
-      players: []
-    }
-  },
-  render: function() {
-    return (
-      <ul className="row">
-          {this.props.rounds.map(function(round, index){
-            return <RoundItem round={round} key={"round-" + index}/>
-           })}
-      </ul>
-    );
-  }
-});
-
-var RoundItem = React.createClass({
-  getDefaultProps: function() {
-    return {
-      round: {},
-      players: []
-    }
-  },
-  render: function() {
-    return (
-      <li className="round">
-          <div className="round-id">
-              <Link to="round" params={ {roundId: this.props.round.id} }>
-              Round {this.props.round.id}
-          </Link>
-          </div>
-      </li>
-    );
-  }
-});
-
 
 module.exports = GamePage;
 

@@ -31,6 +31,7 @@ module.exports = {
     RECEIVE_GAME: null,
     CREATE_GAME: null,
     RECEIVE_CREATED_GAME: null,
+    JOIN_GAME: null,
 
     // ROUNDS
     LOAD_ROUNDS: null,

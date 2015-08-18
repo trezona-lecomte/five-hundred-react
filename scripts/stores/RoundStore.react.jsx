@@ -11,6 +11,7 @@ var _rounds = [];
 var _errors = [];
 var _round = {
   id: "",
+  game_id: "",
   path: "",
   number_in_game: "",
   stage: "",

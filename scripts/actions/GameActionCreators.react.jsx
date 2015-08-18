@@ -26,6 +26,15 @@ module.exports = {
       type: ActionTypes.CREATE_GAME
     });
     WebAPIUtils.createGame();
+  },
+
+  joinGame: function(handle, gameId) {
+    FiveHundredDispatcher.handleViewAction({
+      type: ActionTypes.JOIN_GAME,
+      handle: handle,
+      gameId: gameId
+    });
+    WebAPIUtils.joinGame(handle, gameId);
   }
 
 };

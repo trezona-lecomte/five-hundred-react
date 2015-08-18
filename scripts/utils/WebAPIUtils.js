@@ -99,6 +99,24 @@ module.exports = {
       });
   },
 
+  joinGame: function(handle, gameId) {
+    request.post(APIEndpoints.GAMES + '/' + gameId + '/players')
+      .set('Accept', 'application/json')
+      .set('Authorization', sessionStorage.getItem('accessToken'))
+      .send({ handle: handle })
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveGame(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveGame(json, null);
+          }
+        }
+      });
+  },
+
   loadRounds: function(gameId) {
     request.get(APIEndpoints.GAMES + '/' + gameId + APIEndpoints.ROUNDS)
       .set('Accept', 'application/json')
