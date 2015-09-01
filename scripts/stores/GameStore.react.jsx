@@ -1,20 +1,23 @@
 var FiveHundredDispatcher = require('../dispatcher/FiveHundredDispatcher.js');
-var FiveHundredConstants = require('../constants/FiveHundredConstants.js');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var WebAPIUtils = require('../utils/WebAPIUtils.js');
+var FiveHundredConstants  = require('../constants/FiveHundredConstants.js');
+var EventEmitter          = require('events').EventEmitter;
+var assign                = require('object-assign');
+var WebAPIUtils           = require('../utils/WebAPIUtils.js');
 
-var ActionTypes = FiveHundredConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
+var ActionTypes           = FiveHundredConstants.ActionTypes;
+var CHANGE_EVENT          = 'change';
 
 var _games = [];
 var _errors = [];
-var _game = { id: "",
-              path: "",
-              stage: "",
-              active_round: {},
-              players: [],
-              rounds: [] };
+var _game = {
+  id: "",
+  path: "",
+  stage: "",
+  odd_players_score: "",
+  even_players_score: "",
+  rounds_path: "",
+  players_path: ""
+};
 
 var GameStore = assign({}, EventEmitter.prototype, {
 

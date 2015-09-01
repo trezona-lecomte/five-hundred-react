@@ -1,5 +1,5 @@
-#Small
-This is a sample project used to illustrate the Flux architecture with React. Checkout the full article [here](http://fancypixel.github.io/blog/2015/01/28/react-plus-flux-backed-by-rails-api/)
+#Five Hundred
+A client for the five-hundred-rails API, written with React.
 
 ##Setup
 ```
@@ -10,7 +10,7 @@ gulp watch
 
 #MIT License
 
-	Copyright (c) 2015 Fancy Pixel. All rights reserved.
+	Copyright (c) 2015 Powershop NZ Ltd. All rights reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining a
 	copy of this software and associated documentation files (the "Software"),

@@ -1,24 +1,25 @@
 'use strict';
 
-var gulp = require('gulp'),
-    gulpFilter = require('gulp-filter'),
-    flatten = require('gulp-flatten'),
+var gulp           = require('gulp'),
+    gulpFilter     = require('gulp-filter'),
+    flatten        = require('gulp-flatten'),
     mainBowerFiles = require('main-bower-files'),
-    rename = require("gulp-rename"),
-    minifycss = require('gulp-minify-css'),
-    changed = require('gulp-changed'),
-    sass = require('gulp-sass'),
-    csso = require('gulp-csso'),
-    autoprefixer = require('gulp-autoprefixer'),
-    browserify = require('browserify'),
-    watchify = require('watchify'),
-    source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-    reactify = require('reactify'),
-    uglify = require('gulp-uglify'),
-    del = require('del'),
-    notify = require('gulp-notify'),
-    browserSync = require('browser-sync'),
+    rename         = require("gulp-rename"),
+    minifycss      = require('gulp-minify-css'),
+    changed        = require('gulp-changed'),
+    sass           = require('gulp-sass'),
+    csso           = require('gulp-csso'),
+    autoprefixer   = require('gulp-autoprefixer'),
+    browserify     = require('browserify'),
+    watchify       = require('watchify'),
+    source         = require('vinyl-source-stream'),
+    buffer         = require('vinyl-buffer'),
+    reactify       = require('reactify'),
+    uglify         = require('gulp-uglify'),
+    del            = require('del'),
+    notify         = require('gulp-notify'),
+    browserSync    = require('browser-sync'),
+    imagemin       = require('gulp-imagemin'),
     reload = browserSync.reload,
     p = {
       jsx: './scripts/app.jsx',
@@ -26,9 +27,11 @@ var gulp = require('gulp'),
       scssSource: 'styles/*',
       font: 'fonts/*',
       bundle: 'app.js',
+      img: 'images/**/*',
       distJs: 'dist/js',
       distCss: 'dist/css',
-      distFont: 'dist/fonts'
+      distFont: 'dist/fonts',
+      distImg: 'dist/images'
     };
 
 gulp.task('clean', function(cb) {
@@ -41,7 +44,7 @@ gulp.task('browserSync', function() {
     server: {
       baseDir: './'
     }
-  })
+  });
 });
 
 gulp.task('watchify', function() {
@@ -85,6 +88,13 @@ gulp.task('styles', function() {
     .pipe(csso())
     .pipe(gulp.dest(p.distCss))
     .pipe(reload({stream: true}));
+});
+
+gulp.task('images', function() {
+  return gulp.src(p.img)
+    .pipe(changed(p.distImg))
+    .pipe(imagemin())
+    .pipe(gulp.dest(p.distImg));
 });
 
 // Ugly hack to bring modernizr in
@@ -135,12 +145,12 @@ gulp.task('watchTask', function() {
 });
 
 gulp.task('watch', ['clean'], function() {
-  gulp.start(['libs', 'browserSync', 'watchTask', 'watchify', 'styles']);
+  gulp.start(['libs', 'browserSync', 'watchTask', 'watchify', 'styles', 'images']);
 });
 
 gulp.task('build', ['clean'], function() {
   process.env.NODE_ENV = 'production';
-  gulp.start(['libs', 'browserify', 'styles']);
+  gulp.start(['libs', 'browserify', 'styles', 'images']);
 });
 
 gulp.task('default', function() {

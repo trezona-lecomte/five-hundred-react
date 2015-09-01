@@ -2,7 +2,7 @@ var React               = require('react');
 var RoundActionCreators = require('../../actions/RoundActionCreators.react.jsx');
 
 var PlayingRound = React.createClass({
-
+/* TODO: look into using models in js to contain some of the logic here. */
   getDefaultProps: function() {
     return {
       round: {}
@@ -13,10 +13,10 @@ var PlayingRound = React.createClass({
     var round = this.props.round;
     return (
       <div>
-          <div className="row playing-round">
+          <div className="playing-round">
               <div className="round-id"><h2>Round {round.id}</h2></div>
               <NotificationArea round={round} />
-              <ActiveTrick trick={round.active_trick} />
+              <ActiveTrick trick={round.current_trick} />
               <PlayerCardsList currentPlayerCards={round.current_player_cards} round={round} />
           </div>
       </div>
@@ -31,13 +31,11 @@ var NotificationArea = React.createClass({
     }
   },
   render: function() {
-    var cards = this.props.round.active_trick.cards;
-    console.log('trick number:' + this.props.round.active_trick.number_in_round);
-    if (typeof cards !== 'undefined' && this.props.round.active_trick.number_in_round === 1) {
-      console.log('first trick!');
+    var cards = this.props.round.current_trick.cards;
+    if (typeof cards !== 'undefined' && this.props.round.current_trick.order_in_round === 1) {
       return (
         <div className="bidding-winner-notification panel">
-            <h5>{this.props.round.winning_bid.player} won the bidding, so it's their turn to play a card.</h5>
+            <h5>{this.props.round.highest_bid.player} won the bidding, so it's their turn to play a card.</h5>
         </div>
       );
     } else if (typeof cards !== 'undefined' && cards.length === 0) {
@@ -61,7 +59,7 @@ var ActiveTrick = React.createClass({
     return (
       <div className="active-trick panel">
           <div className="trick-number">
-              <h4>Trick {this.props.trick.number_in_round} (current winning card: {this.props.trick.winning_card_id})</h4>
+              <h4>Trick {this.props.trick.order_in_round + 1} (current winning card: {this.props.trick.winning_card_id})</h4>
           </div>
           <div>
               <TrickCardsList trickCards={this.props.trick.cards} />
@@ -124,7 +122,7 @@ var PlayerCardsList = React.createClass({
               <h4>Your hand:</h4>
           </div>
           <div>
-              <ul className="player-cards">
+              <ul className="player-cards inline-list" >
                   {this.props.currentPlayerCards.map(function(card, index){
                     return <PlayerCardItem card={card} round={round} key={"card-" + index} />
                    })}
@@ -147,14 +145,14 @@ var PlayerCardItem  = React.createClass({
     RoundActionCreators.playCard(this.props.round, this.props.card.id);
   },
   render: function() {
-    roundId = this.props.roundId
+    var roundId = this.props.roundId
     card = this.props.card
     console.log('player-card-item: ' + this.props.card);
+    var cardImageName = "/dist/images/" + card.rank + "_of_" + card.suit + ".png"
     return (
       <li className="player-card">
-          <button onClick={this.playCard}>
-              {card.rank} of {card.suit}
-          </button>
+          <input type="image" src={cardImageName} onClick={this.playCard}>
+          </input>
       </li>
     );
   }

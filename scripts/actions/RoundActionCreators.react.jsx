@@ -32,20 +32,20 @@ module.exports = {
     FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.SUBMIT_BID,
       roundId: round.id,
-      number_of_tricks: bid[0],
-      suit: bid[1]
+      number_of_tricks: bid.number_of_tricks,
+      suit: bid.suit
     });
-    WebAPIUtils.submitBid(round.id, bid[0], bid[1]);
+    WebAPIUtils.submitBid(round.id, bid.number_of_tricks, bid.suit);
   },
 
   playCard: function(round, cardId) {
     FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.PLAY_CARD,
       roundId: round.id,
-      trickId: round.active_trick.id,
+      trickId: round.current_trick.id,
       cardId:  cardId
     });
-    WebAPIUtils.playCard(round.id, round.active_trick.id, cardId);
+    WebAPIUtils.playCard(round.id, round.current_trick.id, cardId);
   }
 
 };

@@ -13,12 +13,12 @@ var _round = {
   id: "",
   game_id: "",
   path: "",
-  number_in_game: "",
+  order_in_game: "",
   stage: "",
   available_bids: [],
-  winning_bid: {},
+  highest_bid: {},
   placed_bids: [],
-  active_trick: {},
+  current_trick: {},
   previous_trick_winner: {},
   trick_ids: [],
   current_player_cards: [],
@@ -69,19 +69,18 @@ RoundStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
         _errors = [];
       }
       if (action.errors) {
-        _errors = action.errors;
+        _errors = action.errors.base;
       }
       RoundStore.emitChange();
       break;
 
   case ActionTypes.RECEIVE_ROUND:
-    console.log('receiving round from server in round store');
       if (action.json) {
         _round = action.json.round;
         _errors = [];
       }
       if (action.errors) {
-        _errors = action.errors;
+        _errors = action.errors.base;
       }
       RoundStore.emitChange();
       break;

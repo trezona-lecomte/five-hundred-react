@@ -46,7 +46,7 @@ RouteStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
   ]);
 
   var action = payload.action;
-  
+
   switch(action.type) {
 
     case ActionTypes.REDIRECT:
@@ -60,14 +60,14 @@ RouteStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
         $(document).foundation();
       }
       break;
-    
+
     case ActionTypes.RECEIVE_CREATED_GAME:
       router.transitionTo('app');
       break;
 
     default:
   }
-  
+
   return true;
 });
 

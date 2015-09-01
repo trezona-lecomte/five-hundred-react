@@ -13,7 +13,7 @@ var FinishedRound = React.createClass({
   render: function() {
     var round = this.props.round;
     return (
-      <div className="row finished_round">
+      <div className="finished_round">
           <div className="round-id"><h2>Round {round.id}</h2></div>
           <NotificationArea round={round} />
           <RoundScoreBoard round={round} />
@@ -46,12 +46,12 @@ var RoundScoreBoard = React.createClass({
   },
   oddTeam: function() {
     return this.props.round.players.filter(function(player) {
-      return (player.number_in_game % 2 !== 0);
+      return (player.order_in_game % 2 !== 0);
     });
   },
   evenTeam: function() {
     return this.props.round.players.filter(function(player) {
-      return (player.number_in_game % 2 === 0);
+      return (player.order_in_game % 2 === 0);
     });
   },
   render: function() {
@@ -69,12 +69,12 @@ var RoundScoreBoard = React.createClass({
               <tbody>
                   <tr>
                       <td>Team 1</td>
-                      <td>{this.props.round.odd_team_score}</td>
+                      <td>{this.props.round.odd_players_score}</td>
                       <td>{this.oddTeam()[0].handle} & {this.oddTeam()[1].handle}</td>
                   </tr>
                   <tr>
                       <td>Team 2</td>
-                      <td>{this.props.round.even_team_score}</td>
+                      <td>{this.props.round.even_players_score}</td>
                       <td>{this.evenTeam()[0].handle} & {this.evenTeam()[1].handle}</td>
                   </tr>
               </tbody>

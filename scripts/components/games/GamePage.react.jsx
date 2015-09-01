@@ -57,12 +57,12 @@ var GameScoreBoard = React.createClass({
   },
   oddTeam: function() {
     return this.props.game.players.filter(function(player) {
-      return (player.number_in_game % 2 !== 0);
+      return (player.order_in_game % 2 !== 0);
     });
   },
   evenTeam: function() {
     return this.props.game.players.filter(function(player) {
-      return (player.number_in_game % 2 === 0);
+      return (player.order_in_game % 2 === 0);
     });
   },
   render: function() {
@@ -94,12 +94,12 @@ var GameScoreBoard = React.createClass({
               <tbody>
                   <tr>
                       <td>Team 1</td>
-                      <td>{this.props.game.odd_team_score}</td>
+                      <td>{this.props.game.odd_players_score}</td>
                       <td>{this.props.oddTeamHandles}</td>
                   </tr>
                   <tr>
                       <td>Team 2</td>
-                      <td>{this.props.game.even_team_score}</td>
+                      <td>{this.props.game.even_players_score}</td>
                       <td>{this.props.evenTeamHandles}</td>
                   </tr>
               </tbody>

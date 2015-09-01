@@ -20,8 +20,8 @@ var BiddingRound = React.createClass({
     console.log('players in bidding round: ' + players);
     return (
       <div>
-          <div className="row bidding-round">
-              <div className="round-id"><h2>Round {round.id}</h2></div>
+          <div className="bidding-round">
+              <div className="round-id"><h2>Round {parseInt(round.order_in_game) + 1}</h2></div>
               <NotificationArea round={round} players={players}/>
               <PlacedBidsList bids={round.placed_bids} />
               <AvailableBidsList bids={round.available_bids} round={round} />
@@ -41,10 +41,10 @@ var NotificationArea = React.createClass({
   },
   firstBidderHandle: function() {
     var players = this.props.players;
-    var roundNumber = this.props.round.number_in_game;
+    var roundNumber = this.props.round.order_in_game;
     var firstBidder = players[0];
     players.forEach(function(player) {
-      if ((roundNumber % player.number_in_game) === 1) {
+      if ((roundNumber % (player.order_in_game + 1)) === 0) {
         firstBidder = player
       }
     });
@@ -53,16 +53,20 @@ var NotificationArea = React.createClass({
   render: function() {
     var bids = this.props.round.placed_bids;
     if (typeof bids !== 'undefined' && bids.length > 0) {
-      var winningBid = this.props.round.winning_bid;
+      var winningBid = this.props.round.highest_bid;
+      if (winningBid !== null) {
       return (
         <div className="current-highest-bidder panel">
             <h4>{winningBid.player} has the highest bid at the moment - {winningBid.number_of_tricks} {winningBid.suit}</h4>
         </div>
       );
+      } else {
+        return <div></div>
+      }
     } else {
       return (
         <div className="waiting-for-first-bid panel">
-            <h4>Waiting for the first bid, it is {this.firstBidderHandle()}'s turn to bid first</h4>
+            <h4>Waiting for the first bid, {this.firstBidderHandle()} has the first bid first</h4>
         </div>
       );
     }
@@ -100,13 +104,33 @@ var AvailableBidItem  = React.createClass({
     RoundActionCreators.submitBid(this.props.round, this.props.bid);
   },
   render: function() {
-    return (
-      <li className="available-bid-item">
+    if (this.props.bid.number_of_tricks === 0) {
+      return (
+        <li className="available-bid-item">
           <button onClick={this.submitBid}>
-              Bid: {this.props.bid[0]} {this.props.bid[1]}
+              Pass
           </button>
-      </li>
-    );
+        </li>
+      );
+    }
+    else if (this.props.bid.suit === "no_suit") {
+      return (
+        <li className="available-bid-item">
+          <button onClick={this.submitBid}>
+              Bid {this.props.bid.number_of_tricks} no trumps
+          </button>
+        </li>
+      );
+    }
+    else {
+      return (
+        <li className="available-bid-item">
+          <button onClick={this.submitBid}>
+              Bid {this.props.bid.number_of_tricks} {this.props.bid.suit}
+          </button>
+        </li>
+      );
+    }
   }
 });
 
