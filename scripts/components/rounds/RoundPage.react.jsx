@@ -26,7 +26,7 @@ var RoundPage = React.createClass({
     var roundId = this.getParams().roundId;
     RoundStore.addChangeListener(this._onChange);
     RoundActionCreators.loadRound(roundId);
-    this.state.timerId = window.setInterval(function(){RoundActionCreators.loadRound(roundId)}, 3000);
+    this.state.timerId = window.setInterval(function(){RoundActionCreators.loadRound(roundId)}, 500);
   },
 
   componentWillUnmount: function() {

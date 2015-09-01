@@ -79,18 +79,16 @@ var TrickCardsList = React.createClass({
     var cards = this.props.trickCards;
     if (typeof cards !== 'undefined') {
       cards = cards.sort(function(a, b) {
-        return a.position_in_trick - b.position_in_trick;
+        return parseInt(a.order_in_trick) - parseInt(b.order_in_trick);
       });
     }
     return (
       <div className="trick-cards-list panel">
-
-              <ul className="trick-cards-list inline-list">
-                  {cards.map(function(card, index){
-                    return <TrickCardItem card={card} key={"card-" + index} />
-                   })}
-              </ul>
-
+          <ul className="trick-cards-list inline-list">
+              {cards.map(function(card, index){
+                return <TrickCardItem card={card} key={"card-" + index} />
+               })}
+          </ul>
       </div>
     )
   }
