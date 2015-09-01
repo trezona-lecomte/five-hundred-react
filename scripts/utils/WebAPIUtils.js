@@ -176,13 +176,13 @@ module.exports = {
       });
   },
 
-  submitBid: function(roundId, numberOfTricks, suit) {
-    console.log('submitting bid: ' + numberOfTricks + " | " + suit);
+  submitBid: function(roundId, pass, numberOfTricks, suit) {
     request.post(APIEndpoints.ROUNDS + '/' + roundId + '/bids')
       .set('Accept', 'application/json')
       .set('Authorization', sessionStorage.getItem('accessToken'))
       .send(
         {
+          "pass": pass,
           "number_of_tricks": numberOfTricks,
           "suit": suit
         }

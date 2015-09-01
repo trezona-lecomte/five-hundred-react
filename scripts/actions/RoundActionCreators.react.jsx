@@ -32,10 +32,11 @@ module.exports = {
     FiveHundredDispatcher.handleViewAction({
       type: ActionTypes.SUBMIT_BID,
       roundId: round.id,
+      pass: bid.pass,
       number_of_tricks: bid.number_of_tricks,
       suit: bid.suit
     });
-    WebAPIUtils.submitBid(round.id, bid.number_of_tricks, bid.suit);
+    WebAPIUtils.submitBid(round.id, bid.pass, bid.number_of_tricks, bid.suit);
   },
 
   playCard: function(round, cardId) {

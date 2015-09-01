@@ -18,7 +18,7 @@ var RoundPage = React.createClass({
     return {
       round: RoundStore.getRound(),
       timerId: null,
-      errors: []
+      errors: {}
     };
   },
 
@@ -26,7 +26,7 @@ var RoundPage = React.createClass({
     var roundId = this.getParams().roundId;
     RoundStore.addChangeListener(this._onChange);
     RoundActionCreators.loadRound(roundId);
-    this.state.timerId = window.setInterval(function(){RoundActionCreators.loadRound(roundId)}, 2000);
+    this.state.timerId = window.setInterval(function(){RoundActionCreators.loadRound(roundId)}, 3000);
   },
 
   componentWillUnmount: function() {
@@ -35,7 +35,6 @@ var RoundPage = React.createClass({
   },
 
   _onChange: function() {
-    console.log("errors from round store: " + RoundStore.getErrors());
     this.setState({
       round: RoundStore.getRound(),
       errors: RoundStore.getErrors()
@@ -43,14 +42,22 @@ var RoundPage = React.createClass({
   },
 
   render: function() {
-    var errors = (this.state.errors.length > 0) ? <ErrorNotice errors={this.state.errors}/> : <div></div>;
+    var errorArray = [];
+    var errorObject = this.state.errors;
+    Object.keys(errorObject).forEach(function(key) {
+      if (key !== "base") {
+        errorArray.push(key + " " + errorObject[key]);
+      } else {
+        errorArray.push(errorObject[key]);
+      }
+    });
+    var errorNotification = (errorArray.length > 0) ? <ErrorNotice errors={errorArray}/> : <div></div>;
     var round = this.state.round;
     var players = round.players;
-    console.log('players: ' + JSON.stringify(players));
     if (this.state.round.stage === "bidding") {
       return (
         <div>
-           {errors}
+            {errorNotification}
             <BiddingRound round={this.state.round} players={players} errors={this.state.errors} />
         </div>
       );
@@ -58,7 +65,7 @@ var RoundPage = React.createClass({
     else if (this.state.round.stage === "playing") {
       return (
         <div>
-            {errors}
+            {errorNotification}
             <PlayingRound round={this.state.round} errors={this.state.errors} />
         </div>
       )
@@ -66,7 +73,7 @@ var RoundPage = React.createClass({
     else if (this.state.round.stage === "finished") {
       return (
         <div>
-            {errors}
+            {errorNotification}
             <FinishedRound round={this.state.round} errors={this.state.errors} />
         </div>
       )

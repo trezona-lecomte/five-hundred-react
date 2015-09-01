@@ -8,7 +8,7 @@ var ActionTypes = FiveHundredConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var _rounds = [];
-var _errors = [];
+var _errors = {};
 var _round = {
   id: "",
   game_id: "",
@@ -66,10 +66,10 @@ RoundStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
     case ActionTypes.RECEIVE_CREATED_ROUND:
       if (action.json) {
         _rounds.unshift(action.json.round);
-        _errors = [];
+        _errors = {};
       }
       if (action.errors) {
-        _errors = action.errors.base;
+        _errors = action.errors;
       }
       RoundStore.emitChange();
       break;
@@ -77,10 +77,11 @@ RoundStore.dispatchToken = FiveHundredDispatcher.register(function(payload) {
   case ActionTypes.RECEIVE_ROUND:
       if (action.json) {
         _round = action.json.round;
-        _errors = [];
+        _errors = {};
       }
-      if (action.errors) {
-        _errors = action.errors.base;
+          if (action.errors) {
+              console.log("ERRORS IN STORE: " + JSON.stringify(action.errors));
+        _errors = action.errors;
       }
       RoundStore.emitChange();
       break;

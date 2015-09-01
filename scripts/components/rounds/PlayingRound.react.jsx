@@ -32,7 +32,7 @@ var NotificationArea = React.createClass({
   },
   render: function() {
     var cards = this.props.round.current_trick.cards;
-    if (typeof cards !== 'undefined' && this.props.round.current_trick.order_in_round === 1) {
+    if (typeof cards !== 'undefined' && this.props.round.current_trick.order_in_round === 0) {
       return (
         <div className="bidding-winner-notification panel">
             <h5>{this.props.round.highest_bid.player} won the bidding, so it's their turn to play a card.</h5>
@@ -59,7 +59,7 @@ var ActiveTrick = React.createClass({
     return (
       <div className="active-trick panel">
           <div className="trick-number">
-              <h4>Trick {this.props.trick.order_in_round + 1} (current winning card: {this.props.trick.winning_card_id})</h4>
+              <h4>Trick {this.props.trick.order_in_round + 1}</h4>
           </div>
           <div>
               <TrickCardsList trickCards={this.props.trick.cards} />
@@ -84,13 +84,13 @@ var TrickCardsList = React.createClass({
     }
     return (
       <div className="trick-cards-list panel">
-          <div>
-              <ul className="trick-cards">
+
+              <ul className="trick-cards-list inline-list">
                   {cards.map(function(card, index){
                     return <TrickCardItem card={card} key={"card-" + index} />
                    })}
               </ul>
-          </div>
+
       </div>
     )
   }
@@ -98,9 +98,14 @@ var TrickCardsList = React.createClass({
 
 var TrickCardItem  = React.createClass({
   render: function() {
+    card = this.props.card
+    var location = document.location.pathname;
+    var directory = location.substring(0, location.lastIndexOf('/'));
+    var cardImageName = directory + "/dist/images/" + card.rank + "_of_" + card.suit + ".png"
     return (
-      <li className="trick-card">
-          <p>Card #{this.props.card.id} | {this.props.card.rank} of {this.props.card.suit} - {this.props.card.played_by}</p>
+      <li className="trick-card-item">
+          <img src={cardImageName}></img>
+          {this.props.card.played_by}
       </li>
     );
   }
@@ -122,7 +127,7 @@ var PlayerCardsList = React.createClass({
               <h4>Your hand:</h4>
           </div>
           <div>
-              <ul className="player-cards inline-list" >
+              <ul className="playing-cards-list inline-list" >
                   {this.props.currentPlayerCards.map(function(card, index){
                     return <PlayerCardItem card={card} round={round} key={"card-" + index} />
                    })}
@@ -147,10 +152,12 @@ var PlayerCardItem  = React.createClass({
   render: function() {
     var roundId = this.props.roundId
     card = this.props.card
-    console.log('player-card-item: ' + this.props.card);
-    var cardImageName = "/dist/images/" + card.rank + "_of_" + card.suit + ".png"
+    console.log('playing-card-item: ' + this.props.card);
+    var location = document.location.pathname;
+    var directory = location.substring(0, location.lastIndexOf('/'));
+    var cardImageName = directory + "/dist/images/" + card.rank + "_of_" + card.suit + ".png"
     return (
-      <li className="player-card">
+      <li className="playing-card-item">
           <input type="image" src={cardImageName} onClick={this.playCard}>
           </input>
       </li>

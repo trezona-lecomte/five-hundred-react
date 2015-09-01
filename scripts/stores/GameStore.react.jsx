@@ -16,7 +16,8 @@ var _game = {
   odd_players_score: "",
   even_players_score: "",
   rounds_path: "",
-  players_path: ""
+    players_path: "",
+    players: []
 };
 
 var GameStore = assign({}, EventEmitter.prototype, {

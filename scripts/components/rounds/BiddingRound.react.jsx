@@ -103,8 +103,8 @@ var AvailableBidItem  = React.createClass({
     e.preventDefault();
     RoundActionCreators.submitBid(this.props.round, this.props.bid);
   },
-  render: function() {
-    if (this.props.bid.number_of_tricks === 0) {
+    render: function() {
+    if (this.props.bid.pass === true) {
       return (
         <li className="available-bid-item">
           <button onClick={this.submitBid}>
